@@ -87,6 +87,7 @@ tp_block	ds	2		; Block number (int)
 tp_idx		ds	1		; Current buffer index
 tp_flag		ds	1		; zero = closed, 1=read, 2=write
 tp_delay	ds	2		; Interblock delay
+tp_print	ds  1		; Interactive mode i.e. print? (MSB set = print)
 
 ;
 ; **** INTERPRETER ZERO PAGE ****

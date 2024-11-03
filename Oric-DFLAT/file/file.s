@@ -63,10 +63,18 @@ f_save_msg
 f_back4
 	db	8,8,8,8,0
 
-f_print_open
-	ldy #lo(f_open_msg)
-	lda #hi(f_open_msg)
+f_print_msg
+	bit tp_print
+	bmi f_no_print
 	jmp gr_print_msg
+
+f_print_byte
+	bit tp_print
+	bmi f_no_print
+	jmp gr_put_byte
+
+f_no_print
+	rts
 
 ;* Common function to open tape
 ;* df_linbuff contains the filename without device name
@@ -103,7 +111,9 @@ f_open_read
 	pha						; Don't lose device number
 	lda #1					; Read mode
 	sta tp_flag
-	jsr f_print_open
+	ldy #lo(f_open_msg)
+	lda #hi(f_open_msg)
+	jsr f_print_msg
 	pla
 	jsr f_open_common
 
@@ -128,9 +138,9 @@ f_get_fname
 
 	ldy #lo(df_linbuff)
 	lda #hi(df_linbuff)
-	jsr gr_print_msg
+	jsr f_print_msg
 	lda #' '
-	jsr gr_put_byte
+	jsr f_print_byte
 
 	clc
 	rts
@@ -150,7 +160,7 @@ f_close
 	jsr f_put_block			; Flush the current block
 f_close_no_flush
 	lda #0x0d				; Line feed
-	jsr gr_put_byte
+	jsr f_print_byte
 	jsr f_release			; Device specific resource release
 	jsr init_via0			; Back to normal
 	cli
@@ -182,12 +192,12 @@ f_open_write_start
 	stx tp_delay
 	ldy #lo(f_save_msg)
 	lda #hi(f_save_msg)
-	jsr gr_print_msg
+	jsr f_print_msg
 	ldy #lo(df_linbuff)
 	lda #hi(df_linbuff)
-	jsr gr_print_msg
+	jsr f_print_msg
 	lda #' '
-	jsr gr_put_byte
+	jsr f_print_byte
 	pla	
 	jsr f_open_common		; Same as reading but tp_mode=2
 
@@ -286,17 +296,17 @@ f_put_block_bytes
 f_print_block
 	lda tp_block+1			; Print block number hi byte
 	jsr str_a_to_x
-	jsr gr_put_byte
+	jsr f_print_byte
 	txa
-	jsr gr_put_byte
+	jsr f_print_byte
 	lda tp_block			; Print block number lo byte
 	jsr str_a_to_x
-	jsr gr_put_byte
+	jsr f_print_byte
 	txa
-	jsr gr_put_byte
+	jsr f_print_byte
 	lda #hi(f_back4)		; Go back 4 characters to print next block
 	ldy #lo(f_back4)
-	jmp gr_print_msg
+	jmp f_print_msg
 ;	rts
 
 

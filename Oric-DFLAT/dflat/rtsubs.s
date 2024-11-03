@@ -1915,7 +1915,8 @@ df_rt_play
 ;	rts
 	
 ;* common filename procesing routine
-;*
+;* expects s: or t: followed by filename
+;* if no device specified then sd card default
 df_rt_init_filename
 	; evaluate string
 	jsr df_rt_neval
@@ -1928,23 +1929,22 @@ df_rt_init_filename
 	; Check first 2 chars of string
 	; if s: then device = sd card
 	; if t: then device = tape
-	lda #0							; Assume tape i.e. device 0
-	pha
+	ldx #1							; Assume SD card i.e. device 1
 	ldy #1
 	lda (df_tmpptrc),y
 	dey								; Y=0 i.e. assume no s: or t:
-	cmp #':'						; if no ':' in pos 1 then tape
+	cmp #':'						; if no ':' in pos 1 then default
 	bne df_rt_do_fname
 	lda (df_tmpptrc),y				; get first char
 	ldy #2							; filename must start at pos 2
-	cmp #'t'						; if t then still tape
+	cmp #'s'						; if s then still sd card
 	beq df_rt_do_fname
-	cmp #'s'						; MUST be s else an error!
+	cmp #'t'						; MUST be t else an error!
 	bne df_rt_file_errc
-	pla
-	lda #1							; Set to sd card
-	pha
+	dex								; DEX makes it zero for tape
 df_rt_do_fname
+	txa								; Save device number
+	pha
 	; copy string to fhandle, Y is at start pos of filename
 	ldx #0
 df_rt_copy_fn
@@ -1971,7 +1971,18 @@ df_rt_dir
 	jmp sd_dir
 
 ;* common file parsing routine
+;* sets tp_print flag for interactive mode or not
 df_rt_parse_file
+	; if line number is zero then interactive mode..
+	ldx #0x80						; Assume interactive mode i.e. print
+	ldy #DFTK_LINNUM				; Check the line number
+	lda (df_currlin),y
+	iny
+	ora (df_currlin),y
+	bne df_rt_parse_file_print		; If not zero then not immediate mode
+	ldx #0x00						; Ok must be running mode i.e no print
+df_rt_parse_file_print
+	stx tp_print					; Save the print flag for file routines
 	; now process filename
 	jsr df_rt_init_filename
 	; device number is in A (0=tape, 1=sdcard)

@@ -1045,8 +1045,8 @@ df_rt_exec_no_key
 	; else done
 	; normally wouldn't get here except immediate mode
 	; if line number <> 0 then error
-	lda df_immed
-	beq df_rt_unexpected_end
+;	lda df_immed
+;	beq df_rt_unexpected_end
 df_rt_exec_end
 	clc
 	rts
@@ -1062,8 +1062,8 @@ df_rt_exec_ctrl_z
 	; this will drop in to the monitor
 	SWBRK 0
 
-df_rt_unexpected_end
-	SWBRK DFERR_IMMEDIATE
+;df_rt_unexpected_end
+;	SWBRK DFERR_IMMEDIATE
 
 	; if hi byte of nextline is not zero then
 	; current line = next line
