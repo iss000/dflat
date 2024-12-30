@@ -1,3 +1,13 @@
+# About Oric
+I've owned the same Oric-1 since 1983 (my first computer!) and thought it was well enough known.. but apparently not!
+
+So for the unitiated, the Oric-1 was a low cost microcomputer designed and built in the UK as a competitor to the ZX Spectrum.
+
+For more information please see: https://en.wikipedia.org/wiki/Oric
+
+# For the impatient (like me)!
+If you want to get dflat running quickly, please visit the emulator folder and follow a few short steps in the readme.txt file to spin up an instance of Oricutron running dflat and then load up a game!
+
 # Note: Wiki
 A friend recommended that I should point out there is a fairly extensive wiki on dflat.
 
@@ -25,12 +35,6 @@ Here is hello world in dflat:
 
 The base version here is targeted for the Oric-1 and Atmos computers from the early 80s and due to being integer only and tokenisation, is much faster than Oric BASIC.
 
-Right now I am in refinement and documentation mode. Please see the wiki pages for details of the language.
+I am in continual refinement and documentation mode as this is an on-going project for my personal enjoyment. Please see the wiki pages for details of the language.
 
-The source and binaries are in the Oric-DFLAT folder - the readme provides a quickstart guide to try dflat rather wihtout building it from scratch.
-
-I also have a hackaday page for this, although this repo will always have the latest code;
-https://hackaday.io/project/175585-oric-1-dflat-system
-
-Also on hackaday, I have my homebrew computer made on breadboard and housed in a BBC Micro case. I made dflat for this computer first, then ported to the Oric for hopefully a slightly wider user base!
-https://hackaday.io/project/5789-65c02-homebrew-computer-on-breadboard
+The source and binaries are in the Oric folder - the readme.txt provides a guide to try dflat rather wihtout building it from scratch but also describes all folder/contents in this repo.

@@ -496,7 +496,7 @@ def_asm(o)
  kbstick=0xc000+0x09*3
  sndset=0xc000+0x08*3
 ;
- .opt o
+.opt o
 .org deek(0x87):;Object code writes over dflat asm area!
 .startAsm
 ; Hires bit mask to bit position look up

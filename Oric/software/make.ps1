@@ -7,15 +7,22 @@
 # Timestamp
 $startTime = (Get-Date)
 
+# Source folder
+$source = "sd-src"
+
+# Destination folder
+$destination = "dflat"
+
 # Source folder is sd-src
-Set-Location ./sd-src
+Set-Location $source
+
 # Gets a list of files and folders in the source
 $files = Get-ChildItem -Recurse
 
 # Back to root
 Set-Location ../
 # Clean target
-Remove-Item -r dflat/* 
+Remove-Item -r ($destination+"/*")
 
 # Initialise counters for metrics
 $dircreated = 0
@@ -26,8 +33,8 @@ $prgconverted = 0
 Foreach ($file in $files) {
 
     # Only interested in relative paths after sd-src
-    $relpathIdx = $file.fullname.IndexOf("sd-src")
-    $relpath = "dflat" + $file.fullname.Substring($relpathIdx+6)
+    $relpathIdx = $file.fullname.IndexOf($source)
+    $relpath = $destination + $file.fullname.Substring($relpathIdx+6)
 
     # If current item is a directory then check if it
     # exists in the target dflat folder, create if needed

@@ -8,10 +8,12 @@ For Quick Start
 2) Run oricutron.exe
 3) The emulator will start with Oric dflat as the default
 4) Try a game
-4.1) type : tload "t:tetris.tap"
-4.2) Oric will load the program of 41 blocks
-4.3) type : _start()
-4.4) Turn *off* music by pressing left cursor!
+4.1) Hit F1 on PC and press 'T'
+4.2) At the file dialog, navigate to software/dflat/games and select any .tap file
+4.3) type : tload "tetris.tap"
+4.4) Oric will load the program
+4.5) type : _start()
+4.6) Turn *off* music by pressing left cursor!
      Press space to play
 	 Left and Right cursor move left and right
 	 Down cursor rapidly drops the shape
@@ -26,144 +28,109 @@ See the emulator section for more information.
 File structure
 --------------
 
-.\
+./				: Root folder for the repo
+- Oric			: Folder containing Oric version of dflat
 - readme.txt	: This file
-- make.bat		: DOS batch file to assemble the source and generate the binaries
-- nppUDF.txt 	: User defined language file for syntax highlighting in notepad++
-- as65.exe,.man	: as65 assembler - allowed to be distributed with .man file
 
-.vscode\
+./Oric
+- dflat			: dflat source code and build scripts
+- emulator		: Oricutron emulator files plus dflat ROM
+- software		: dflat program source and build scripts for Oric
+- util			: Utility programs for PC to Oric and vice-versa
+- vsc-lang 		: Folder containing Syntax highlighting of dflat in vscode
+
+./Oric/vsc-lang
 - dflat_programming_language
-                : copy this folder to your .vscode\extensions folder to get
+                : copy this folder to your .vscode/extensions folder to get
 				: syntax highlighting for dflat in VSC
-bank\
-- bank.s		: defines the content of the ROM bank as an asm source file
-- bank0.lst		: listing file needed to generate patch files for the emulator
 
-cia\
-- cia.s			: routines to handle the Oric 6522 VIA
+./Oric/dflat
+- make.ps1		: Poweshell script  to assemble the source and generate the binaries
+				  The dflat.rom is copied to the roms folder of the emulator.
+				  This script now also builds a LOCI version of dflat.
+- as65.exe,.man	: as65 6502 macro assembler - allowed to be distributed with .man file
+- bank			: dflat for Oric is a single bank of ROM, so only bank0 includes
+- cia			: 6522 handling code
+- dflat			: Main dflat language tokenisation and runtime code
+- file			: File handling for tape, sd-card and now LOCI mass storage
+- inc			: Incude files for some definitions etc.
+- io			: Simple I/O handler (redirect input and output to required devices)
+- kernel		: Power-on / reset and interrupt handling plus low-level routines
+- keyboard		: keyboard handling
+- monitor		: Simple command line monitor
+- rom			: 16KB ROM images of standard and LOCI dflat plus 64KB image for EEPROM
+- sound			: Sound handling
+- utils			: Utility routines e.g. maths
+- vdp			: Graphics handling
 
-dflat\
-- asm.i			: definitions for inline assembler
-- asm.s			: inline assembler
-- asmjmptab.s	: jump table for assembler tokens
-- asmsymtab.s	: symbol table for assembler tokens
-- dflat.i		: definitions for dflat
-- dflat.s		: dflat bootstrap
-- error.i		: definitions for error handler
-- error.s		: error handler
-- numop.s		: number *and* string operators
-- proc.s		: procedure handling
-- progedit.s	: program editing
-- rtasm.s		: runtime for assembler
-- rtjmptab.s	: jump table for dflat runtime
-- rtsubs.s		: runtme subroutines for dflat keywords
-- runtime.s		: runtime for dflat
-- stack.s		: dflat operator and runtime stack
-- tkasm.s		: tokensier for inline assembler
-- tkjmptab.s	: jump table for dflat tokens
-- tksymtab.s	: symbol table for dflat tokens
-- tktyptab.s	: type table for dflat tokens
-- tokenise.s	: dflat tokeniser
-- toksubs.s		: tokeniser routines for dflat tokens
-- var.s			: dflat variable handling
+dflat software
+--------------
+The ./Oric/software folder contains files to create dflat programs and make them loadable
+on a real Oric.
+dflat program and data files can be created on PC using a regular editor including VSC
+(which has syntax highlighting support) and then minimially converted to allow them to
+be loaded on the Oric.
+Basically any text file with .prg is converted into .tap file and any other type of file
+is converted but maintainig the extension. The need for programs needing to have a '.tap'
+extension is to keep the Oricutron emulator happy but also any converted files maintain
+some low level structures hence why one cannot simply load a dflat .prg file without
+conversion.
+To make it easy, a build script regenerated the destination files based on all source
+and only takes seconds to do (less than 5 on my PC).
 
-emulator\		: See section on emulator
-
-file\
-- file.S		: common file handling used by tape and sd card devices
-- sdcard.S		: SD card handling (needs an Arduino with SD card and dflat server software)
-- tape.s		: tape handling
-
-inc\
-- graph.i		: definitions for graphics / display
-- includes.i	: main definitions and useful macros
-
-io\
-- io.i			: definitions for IO system
-- io.s			: IO system
-
-kernel\
-- build.s		: this is a temp file generated by make.bat for the boot up message
-- irq.s			: interrupt handling
-- kernel.s		: machine initialisation and start up
-- main.s		: main entry point after start up
-- snd-low.s		: low level sound chip routines
-- zeropage.i	: zeropage *and* other machine page allocations
-
-keyboard\
-- keyboard.s	: keyboard handling
-
-monitor\
-- cmd.s			: simple command line monitor
-
-rom\
-- bank0.bin		: binary file generated by assembler
-- ORICD.ROM		: 4 copies of bank0.bin generated by make file for EEPROM burning
-
-sound\
-- sound.s		: sound handling
-
-utils\
-- intmath.s		: low level integer math rountines
-- utils.s		: utility routines
-
-vdp\
-- font.s		: machine character font
-- graph.s		: display handling
-
+- dfdata		: Source files in raw form (e.g. images converted from jpg)
+- dflat			: All dflat software and data files for use on an emulated or real Oric.
+- sd-src		: All source software and data files (when editing on PC)
+- make.ps1		: Powershell script that takes all files in sd-src and converts them as
+				  either dflat (.prg) programs or binary (any other exension).  All
+				  converted files are copied to the dflat folder, maintaining the folder
+				  structure of sd-src.
+				  Assumes ./Oric/util/bin exists for conversion utilities
 
 
 Emulator
 --------
-The emulator\ folder hosts the Oricutron emulator.  All folders and files are
-standard emulator files except the following.
+The ./Oric/emulator folder hosts the Oricutron emulator.  All folders and files are
+standard emulator files except the ones described here.
 
-emulator\
+./Oric/emulator
 oricutron.cfg	: updated configuration file which starts dflat by default
-dftap2txt.exe	: convert a .tap file to text (only 'tsave' format)
-dftap2wav.exe	: convert a .tap file to WAV
-dftxt2tap.exe	: convert a text file to .tap (use 'tload' to load in emu)
 
-emulator\dfprogs\
-tetris.prg		: text format dflat tetris program
-*.prg			: a bunch of other dflat programs in text format
-
-emulator\roms\
+./Oric/emulator/roms
 dflat.pch		: patch file required by oricutron for file load/save
-dflat.rom		: rom file used by emulator - generated by make and copied to
+dflat.rom		: rom file used by emulator - copied here by the make.ps1 script
                   here
 
-tapes\
-tetris.tap		: tape file converted from text file (use 'tload')
-*.tap			: Any other tap files should be loaded with 'tload'
-tapes\OricBASIC\: Any files in here for use with real Oric / Atmos ROMs
-
-util\			: Source files for file utilities - see next section
+Starting the emulator is straightforward:
+a. Naviate to ./Oric/emulator folder
+b. Enter './oricutron' to start the emulator
+c. Hit F1 and then 'T' to select a tape
+d. Navigate to a folder in the ./Oric/software/dflat folder that has .TAP files
+e. Using tload with the filename to load programs.
 
 
 File utilities
 --------------
-These file utilities are to convert between formats used by the emulator, a text
-editor and a real Oric.  Built in VSC with CMake
+The ./Oric/util folder contains  utilities are to convert between formats used by the emulator,
+a text editor and a real Oric.  Built in gcc with a Powershell make script.
 
-util\dftap2txt	: Takes a TAP file format as input and extracts the body as text
+- bin			: Executable files for the utilities, copied here by the build script.
+				  This folder is assumed by the software build script.
+- dftap2txt		: Takes a TAP file format as input and extracts the body as text
 				  to allow editing in a PC text editor.
 				  Usage : dftap2txt [-l] <source> <destination>
 				  Where	: [-l] option supresses line numbers in output file
 				          <source> is the file to be read in TAP format
 						  <destination> is the file to be written in text format
-
-util\dftap2wav	: Takes a TAP file format as input and creates a WAV file that can
-				  be loaded on a real Oric.
+- dftap2wav		: Takes a TAP file format as input and creates a WAV file that can
+				  be loaded on a real Oric through the cassette interface.
 				  Usage : dftap2wav [-b] [-dX] [-8|-11] [-a] <source> <destination>
 				  Where : -b denotes a binary file with short interblock gaps
 						  -dX allows custom interblock gap
 						  -8 selects 8KHz sample rate
 						  -11 select 11KHz sample rate (default)
 						  -a finishes the file with some silence
-
-util\dftxt2tap	: Takes a text file format as input and generates a TAP file to
+- dftxt2tap		: Takes a text file format as input and generates a TAP file to
 				  allow dflat programs to be edited in a PC text editor and then
 				  loaded in to oricutron (then use dftap2wav to use on real Oric)
 				  Usage : dftxt2tap [-l] <source> <destination>
@@ -171,3 +138,10 @@ util\dftxt2tap	: Takes a text file format as input and generates a TAP file to
 				          starting at N and incrementing by 10 (default=10)
 						  <source> is the file to be read in TAP format
 						  <destination> is the text file to be written
+- dfbin2tap		: Takes a binary file format as input and generates a TAP file to
+				  allow dflat to load binary data (e.g. to display a screen image).
+				  The default start address is 0xa000 (start of Oric HIRES screen)
+				  but binary files can be loaded into other parts of memory as
+				  required by using the appropriate parameters in the bload command.
+				  Usage : dfbin2tap <source> <destination>
+- make.ps1		: Powershell build script and assumes gcc installed
