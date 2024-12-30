@@ -1,4 +1,4 @@
-** dflat readme **
+** dflat for Oric readme **
 
 All the files needed to assemble dflat are here.
 
