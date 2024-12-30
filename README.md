@@ -5,8 +5,35 @@ So for the unitiated, the Oric-1 was a low cost microcomputer designed and built
 
 For more information please see: https://en.wikipedia.org/wiki/Oric
 
+
 # For the impatient (like me)!
-If you want to get dflat running quickly, please visit the emulator folder and follow a few short steps in the readme.txt file to spin up an instance of Oricutron running dflat and then load up a game!
+If you want to get dflat running quickly:
+* Go to the `Oric/emulator` folder
+* `oricutron.exe`
+* The emulator will start with Oric dflat as the default
+
+In dflat, try a game
+* Hit F1 on PC and press 'T'
+* At the file dialog, navigate to `software/dflat/games` and select any .tap file
+* type : `tload "tetris.tap"`
+* Oric will load the program and start it automatically
+* Turn *off* music by pressing left cursor!
+
+Keys:
+* Space starts the game
+* Left and Right cursor moves left and right.
+* Down cursor rapidly drops the shape
+* Space rotates the shape clockwise
+* On highscore table, Up/Down changes the initial, right moves to next, space is done.
+
+
+# Quick start for LOCI users
+If you are lucky to have a LOCI device, please follow these instructions to get going quickly:
+* copy the `dfloci.rom` file in `Oric/dflat/rom` to your SD card
+* copy the `dflat` folder in `Oric/software/` to the root of your SD card
+* In LOCI, select the dfloci.rom file on your SD card and reboot
+* Now in dflat if you type `dir` you will see folders in the `dflat` folder of your SD card 
+
 
 # Note: Wiki
 A friend recommended that I should point out there is a fairly extensive wiki on dflat.

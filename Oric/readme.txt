@@ -11,9 +11,8 @@ For Quick Start
 4.1) Hit F1 on PC and press 'T'
 4.2) At the file dialog, navigate to software/dflat/games and select any .tap file
 4.3) type : tload "tetris.tap"
-4.4) Oric will load the program
-4.5) type : _start()
-4.6) Turn *off* music by pressing left cursor!
+4.4) Oric will load the program and start automatically
+4.5) Turn *off* music by pressing left cursor!
      Press space to play
 	 Left and Right cursor move left and right
 	 Down cursor rapidly drops the shape
