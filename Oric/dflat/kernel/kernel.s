@@ -87,7 +87,7 @@ kernel_init
 
 	cli					; irq interrupts enable
 
-kernel_test
+;kernel_test
 ;	jsr kb_read_raw
 ;	jsr utilPrintA
 ;	jsr utilPrintCRLF

@@ -32,7 +32,7 @@ tmp_bank2	ds	1		; Temp storage ONLY FOR USE BY BANK SWITCHING
 ; Interrupt routine addresses
 vec_irq		 ds	2		; Master IRQ handler
 vec_brk		 ds	2		; Master BRK handler
-vec_usercia0 ds	2		; Where to jump for CIA0 interrupt
+vec_user_irq ds	2		; Where to jump for user interrupt
 
 ; VDP parameters
 vdp_cnt		ds	1		; VDP interrupt counter

@@ -77,7 +77,10 @@ conversion.
 To make it easy, a build script regenerated the destination files based on all source
 and only takes seconds to do (less than 5 on my PC).
 
-- dfdata		: Source files in raw form (e.g. images converted from jpg)
+- project		: Project folders and files (e.g. raw images, building binaries etc.)
+				  This folder is useful for pre-building assets and binaries before
+				  they are placed in the sd-src folder. Each project typically has its
+				  own structure and even additional build scripts (see pt3 example)
 - dflat			: All dflat software and data files for use on an emulated or real Oric.
 - sd-src		: All source software and data files (when editing on PC)
 - make.ps1		: Powershell script that takes all files in sd-src and converts them as

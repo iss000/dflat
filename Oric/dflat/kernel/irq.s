@@ -35,9 +35,9 @@ init_irq
 
 	; User handlers VIA0 interrupts
 	lda #lo(null_handler)
-	sta vec_usercia0
+	sta vec_user_irq
 	lda #hi(null_handler)
-	sta vec_usercia0+1
+	sta vec_user_irq+1
 
 	rts
 
@@ -49,10 +49,6 @@ call_irq_master
 ;* Calls the BRK handler
 call_irq_brk
 	jmp (vec_brk)
-
-;* Call the user CIA0 handler
-call_irq_usercia0
-	jmp (vec_usercia0)
 
 ;* null interrupt
 null_irq
@@ -90,7 +86,7 @@ irq
 
 	; Service the timer 1 interrupt
 	sta IO_0 + IFR			; Clear the interrupt
-	jsr int_vdp_handler
+	jsr int_vdp_handler		; VDP timer updates plus calls user irq
 
 irq_fin
 	_pullAXY
@@ -152,9 +148,8 @@ int_vdp_handler
 	ldy gr_scrngeom+gr_cur_x
 	sta (gr_scrngeom+gr_cur_ptr),y
 
-int_vdp_fin	
-	rts
-
+int_vdp_fin
+	jmp (vec_user_irq)
 
 ;****************************************
 ;* update_timers

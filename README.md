@@ -32,7 +32,11 @@ If you are lucky to have a LOCI device, please follow these instructions to get 
 * copy the `dfloci.rom` file in `Oric/dflat/rom` to your SD card
 * copy the `dflat` folder in `Oric/software/` to the root of your SD card
 * In LOCI, select the dfloci.rom file on your SD card and reboot
-* Now in dflat if you type `dir` you will see folders in the `dflat` folder of your SD card 
+* Now in dflat if you type `dir` you will see folders in the `dflat` folder of your SD card
+* Type `tload "file"` to load a file. If the file is directory then dflat changes to that directory
+* Only files with extension `.tap` can be loaded with tload - these are dflat programs
+* From the root, enter `tload "games"` to change to the games folder
+* Now type `tload "tetris.tap"` to load the tetris game - the rest is as above.
 
 
 # Note: Wiki

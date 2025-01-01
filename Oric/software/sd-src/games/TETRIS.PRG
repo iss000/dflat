@@ -461,8 +461,8 @@ def_init()
   message$=message$ + "Tetris by @6502Nerd, programmed in d"
   message$=message$ + "flat, a custom BASIC for the Oric-1 "
   message$=message$ + "and Atmos micromputers.        Speci"
-  message$=message$ + "al hello to the lovely Twitter retro"
-  message$=message$ + " community..thanks for your support!"
+  message$=message$ + "al hello to the lovely retro communi"
+  message$=message$ + "ty, a lovely bunch of people!       "
   message$=message$ + "                                    "
   msgLen=len(message$)-36
   msgIdx=1:msgDelay=4:reset msgTimer

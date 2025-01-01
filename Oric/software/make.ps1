@@ -48,10 +48,10 @@ Foreach ($file in $files) {
     # file, else convert PRG to TAP
         if ($file.extension -ine ".prg") {
             ../util/bin/dfbin2tap $file.fullname $relpath | Out-Null
-            $prgconverted++
+            $binconverted++
         } else {
             ../util/bin/dftxt2tap -l $file.fullname ($relpath.Substring(0, $relpath.Length-3)+"tap") | Out-Null
-            $binconverted++
+            $prgconverted++
         }
     }
 
